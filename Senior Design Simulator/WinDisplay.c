@@ -27,7 +27,7 @@ void Draw(void) {
 	for (x = 0; x < 32; x++) {
 		for (y = 0; y < 16; y++) {
 			color = 0;
-			t.X = x;
+			t.X = x * 2;
 			t.Y = y;
 
 			pixel = getPixel(x, y);
@@ -55,4 +55,7 @@ void Draw(void) {
 			FillConsoleOutputAttribute(Handle, color, size, t, &ret);
 		}
 	}
+	t.X = 0;
+	t.Y = y;
+	SetConsoleCursorPosition(Handle, t);
 }

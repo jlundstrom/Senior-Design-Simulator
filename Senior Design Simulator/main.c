@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include "Display.h"
+#include "Draw.h"
 
 int getch_noblock() {
 	if (_kbhit())
@@ -11,45 +12,41 @@ int getch_noblock() {
 }
 
 int main() {
+	Pixel p = { 128,128,0 };
+	Pixel Blank = { 0,0,0 };
+	int x = 2, y = 0, chr;
 	Display_init();
-	
-	HANDLE Handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	PCONSOLE_SCREEN_BUFFER_INFO ScreenInfo = calloc(sizeof(PCONSOLE_SCREEN_BUFFER_INFO), 1);
-	DWORD size = 2;
-	WORD tmp;
-	DWORD  ret;
-	int x, y, i = 0, j;
-	SetConsoleOutputCP(65001);
-	GetConsoleScreenBufferInfo(Handle, ScreenInfo);
-	
-	while(1) {
-		for(x = 0; x < 32; x++) {
-			for (y = 0; y < 16; y++) {
-				
-				COORD t = { x*2, y };
-				
-				tmp = (i % 0xF) << 4;
-				FillConsoleOutputCharacter(Handle, (TCHAR) '█', size, t, &ret);
-				FillConsoleOutputAttribute(Handle, tmp, size, t, &ret);
-				if (ret == 0) {
-					return 0;
-				}
-				
+
+	setPixel(x, y, p);
+	while (1) {
+		chr = getch_noblock();
+		if (chr > 0) {
+			setPixel(x, y, Blank);
+			if (chr == 'w') {
+				y--;
+			}else if (chr == 's') {
+				y++;
+			}else if (chr == 'a') {
+				x--;
 			}
+			else if (chr == 'd') {
+				x++;
+			}
+
+			if (x < 0) {
+				x = WIDTH - 1;
+			}
+
+			if (y < 0) {
+				y = HEIGHT - 1;
+			}
+			x = x % WIDTH;
+			y = y % HEIGHT;
+			setPixel(x, y, p);
 		}
-		i++;
-		Sleep(33);
-		COORD t2 = { 0, y + 1 };
-		SetConsoleCursorPosition(Handle, t2);
-		j = getch_noblock();
-		if (j > 0) {
-			i = j;
-		}
+		Draw();
 	}
 
-	 
-
-	printf("Testing");
-	CloseHandle(Handle);
+	Draw();
 	return 0;
 }
