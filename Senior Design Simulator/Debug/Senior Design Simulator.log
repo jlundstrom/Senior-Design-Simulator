@@ -1,0 +1,8 @@
+﻿  main.c
+c:\users\jonat\documents\visual studio 2015\projects\senior design simulator\senior design simulator\main.c(32): warning C4566: character represented by universal-character-name '\u2588' cannot be represented in the current code page (1252)
+  WinDisplay.c
+c:\users\jonat\documents\visual studio 2015\projects\senior design simulator\senior design simulator\windisplay.c(54): warning C4566: character represented by universal-character-name '\u2588' cannot be represented in the current code page (1252)
+  Draw.c
+  Generating Code...
+  Senior Design Simulator.vcxproj -> c:\users\jonat\documents\visual studio 2015\Projects\Senior Design Simulator\Debug\Senior Design Simulator.exe
+  Senior Design Simulator.vcxproj -> c:\users\jonat\documents\visual studio 2015\Projects\Senior Design Simulator\Debug\Senior Design Simulator.pdb (Partial PDB)
