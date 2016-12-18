@@ -1,35 +1,30 @@
 ﻿#include <stdio.h>
-#include <windows.h>
+//#include <windows.h>
 #include <conio.h>
 #include "Display.h"
 #include "Draw.h"
-
-int getch_noblock() {
-	if (_kbhit())
-		return _getch();
-	else
-		return -1;
-}
+#include "Input.h"
 
 int main() {
 	Pixel p = { 128,128,0 };
 	Pixel Blank = { 0,0,0 };
-	int x = 2, y = 0, chr;
+	int x = 2, y = 0;
 	Display_init();
+	Input_init();
 
-	setPixel(x, y, p);
 	while (1) {
-		chr = getch_noblock();
-		if (chr > 0) {
+		if (Input_Status) {
 			setPixel(x, y, Blank);
-			if (chr == 'w') {
+			if (Input_Status & UP_INPUT) {
 				y--;
-			}else if (chr == 's') {
+			}
+			if (Input_Status & DOWN_INPUT) {
 				y++;
-			}else if (chr == 'a') {
+			}
+			if (Input_Status & LEFT_INPUT) {
 				x--;
 			}
-			else if (chr == 'd') {
+			if (Input_Status & RIGHT_INPUT) {
 				x++;
 			}
 
@@ -45,6 +40,9 @@ int main() {
 			setPixel(x, y, p);
 		}
 		Draw();
+		Input_Poll();
+		printf("Input: %02X\n", Input_Status);
+		printf("FPS: %02d\n", FPS);
 	}
 
 	Draw();

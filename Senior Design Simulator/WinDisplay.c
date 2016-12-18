@@ -1,6 +1,7 @@
 ﻿#include "Display.h"
 #include "Draw.h"
 #include <windows.h>
+#include <time.h>
 
 #define	BLUE 0x10
 #define	GREEN 0x20
@@ -9,10 +10,13 @@
 #define	LIGHTGREEN 0xA0
 #define	LIGHTRED 0xB0
 HANDLE Handle;
+int i = 0;
+clock_t LastRun;
 
 void Display_init() {
 	Handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleOutputCP(65001);
+	LastRun = clock();
 }
 
 void Draw(void) {
@@ -58,4 +62,10 @@ void Draw(void) {
 	t.X = 0;
 	t.Y = y;
 	SetConsoleCursorPosition(Handle, t);
+	
+	i++;
+	if (i == 5) {
+		FPS = (float)5 * CLOCKS_PER_SEC / (clock() - LastRun);
+		LastRun = clock();
+	}
 }

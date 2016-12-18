@@ -113,10 +113,12 @@
     <ClCompile Include="Draw.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="WinDisplay.c" />
+    <ClCompile Include="WinInput.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h" />
     <ClInclude Include="Draw.h" />
+    <ClInclude Include="Input.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
