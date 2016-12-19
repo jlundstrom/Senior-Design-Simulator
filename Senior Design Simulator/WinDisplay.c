@@ -65,6 +65,7 @@ void Draw(void) {
 	
 	i++;
 	if (i == 5) {
+		i = 0;
 		FPS = (float)5 * CLOCKS_PER_SEC / (clock() - LastRun);
 		LastRun = clock();
 	}
