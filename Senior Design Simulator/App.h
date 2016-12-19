@@ -1,5 +1,5 @@
 #pragma once
-#define APP_COUNT 1
+#define APP_COUNT 2
 typedef void voidFunc(void);
 
 struct App {
@@ -11,7 +11,7 @@ struct App {
 	voidFunc* App_Deinit;
 }typedef App;
 
-char AppStorage[256];
+char AppStorage[1024];
 
 App apps[APP_COUNT];
 App* currentApp;

@@ -112,8 +112,10 @@
   <ItemGroup>
     <ClCompile Include="App_Basic.c" />
     <ClCompile Include="App_Menu.c" />
+    <ClCompile Include="App_Snake.c" />
     <ClCompile Include="Draw.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="Random.c" />
     <ClCompile Include="WinDisplay.c" />
     <ClCompile Include="WinInput.c" />
   </ItemGroup>
@@ -121,9 +123,11 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="App_Basic.h" />
     <ClInclude Include="App_Menu.h" />
+    <ClInclude Include="App_Snake.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

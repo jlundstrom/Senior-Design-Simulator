@@ -9,13 +9,16 @@
 #include "App_Menu.h"
 
 int main() {
-	Display_init();
-	Input_init();
 	App_Menu_New(&homeApp);
 	App_Basic_New(&apps[0]);
+	App_Snake_New(&apps[1]);
+
+	Display_init();
+	Input_init();
 	currentApp = &homeApp;
 	currentApp->App_Init();
-	while (1) {
+
+	while (!(Input_Status & SELECT_INPUT)) {
 		App_Menu_Poll();
 		currentApp->App_Tick();
 		Draw();
