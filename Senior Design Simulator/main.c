@@ -13,7 +13,7 @@ int main() {
 	Input_init();
 	App_Menu_New(&homeApp);
 	App_Basic_New(&apps[0]);
-	currentApp = &apps[0];
+	currentApp = &homeApp;
 	currentApp->App_Init();
 	while (1) {
 		App_Menu_Poll();
