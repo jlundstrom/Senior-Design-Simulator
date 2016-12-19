@@ -18,3 +18,4 @@ Pixel Pixels[WIDTH * HEIGHT];
 Pixel getPixel(int x, int y);
 void setPixel(int x, int y, Pixel pixel);
 void drawRect(int x, int y, int w, int h, Pixel pixel);
+void clearDisplay(void);

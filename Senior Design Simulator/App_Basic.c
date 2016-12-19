@@ -1,7 +1,6 @@
 #include "App_Basic.h"
 #include "Draw.h"
 #include "Input.h"
-#include <stdio.h>
 
 struct appData {
 	int x;
@@ -47,13 +46,14 @@ void Demo_Deinit(void) {
 	Data->x = 0;
 	Data->y = 0;
 	Data->frame = 0;
-	Data = 0;
 	Data->p.R = 0;
 	Data->p.G = 0;
 	Data->p.B = 0;
 	Data->Blank.R = 0;
 	Data->Blank.G = 0;
 	Data->Blank.B = 0;
+
+	Data = 0;
 }
 
 void App_Init(void) {
@@ -120,7 +120,6 @@ void App_Tick(void) {
 			Data->x = Data->x % WIDTH;
 			Data->y = Data->y % HEIGHT;
 			setPixel(Data->x, Data->y, Data->p);
-			printf("Pixel %03d %03d %03d", Data->p.R, Data->p.G, Data->p.B);
 		}		
 	}
 	Data->frame++;
@@ -130,13 +129,14 @@ void App_Deinit(void) {
 	Data->x = 0;
 	Data->y = 0;
 	Data->frame = 0;
-	Data = 0;
 	Data->p.R = 0;
 	Data->p.G = 0;
 	Data->p.B = 0;
 	Data->Blank.R = 0;
 	Data->Blank.G = 0;
 	Data->Blank.B = 0;
+
+	Data = 0;
 }
 
 void App_Basic_New(App* app) {
