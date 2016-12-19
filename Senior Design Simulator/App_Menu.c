@@ -25,10 +25,12 @@ void App_Menu_Tick(void) {
 		frame = 0;
 		if (Input) {
 			if (Input_Status & UP_INPUT) {
+				setPixel(0, idx, Blank);
 				apps[idx].Demo_Deinit();
 				idx--;
 			}
 			if (Input_Status & DOWN_INPUT) {
+				setPixel(0, idx, Blank);
 				apps[idx].Demo_Deinit();
 				idx++;
 			}
