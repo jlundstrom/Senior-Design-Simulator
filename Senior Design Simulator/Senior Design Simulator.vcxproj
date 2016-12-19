@@ -110,12 +110,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="App_Basic.c" />
     <ClCompile Include="Draw.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="WinDisplay.c" />
     <ClCompile Include="WinInput.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
+    <ClInclude Include="App_Basic.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Input.h" />

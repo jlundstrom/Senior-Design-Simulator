@@ -27,6 +27,9 @@
     <ClCompile Include="WinInput.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="App_Basic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Display.h">
@@ -36,6 +39,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="App_Basic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

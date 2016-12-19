@@ -1,50 +1,31 @@
 ﻿#include <stdio.h>
 //#include <windows.h>
-#include <conio.h>
+//#include <conio.h>
 #include "Display.h"
 #include "Draw.h"
 #include "Input.h"
+#include "App.h"
+#include "App_Basic.h"
 
 int main() {
 	Pixel p = { 128,128,0 };
 	Pixel Blank = { 0,0,0 };
+	App apps[1];
+	App* currentApp;
 	int x = 2, y = 0;
 	Display_init();
 	Input_init();
 
+	App_Basic_New(&apps[0]);
+	currentApp = &apps[0];
+	currentApp->App_Init();
 	while (1) {
-		if (Input_Status) {
-			setPixel(x, y, Blank);
-			if (Input_Status & UP_INPUT) {
-				y--;
-			}
-			if (Input_Status & DOWN_INPUT) {
-				y++;
-			}
-			if (Input_Status & LEFT_INPUT) {
-				x--;
-			}
-			if (Input_Status & RIGHT_INPUT) {
-				x++;
-			}
-
-			if (x < 0) {
-				x = WIDTH - 1;
-			}
-
-			if (y < 0) {
-				y = HEIGHT - 1;
-			}
-			x = x % WIDTH;
-			y = y % HEIGHT;
-			setPixel(x, y, p);
-		}
+		currentApp->App_Tick();
 		Draw();
 		Input_Poll();
 		printf("Input: %02X\n", Input_Status);
 		printf("FPS: %02d\n", FPS);
 	}
-
-	Draw();
+	
 	return 0;
 }
