@@ -12,12 +12,15 @@
 struct appData {	
 	unsigned char headX;
 	unsigned char headY;
+	unsigned char foodX;
+	unsigned char foodY;
 	unsigned short headIdx;
 	unsigned short length;
 	char frame;
 	unsigned char Direction;
 	unsigned char pastKeys;
 	Pixel p;
+	Pixel food;
 	Pixel Blank;
 	unsigned char snake[WIDTH*HEIGHT];
 } typedef appData;
@@ -25,6 +28,7 @@ appData* Data;
 
 void App_Snake_Init(void);
 void App_Snake_Deinit(void);
+void App_Snake_Place_Food(void);
 
 void Demo_Snake_Init(void) {
 	App_Snake_Init();
@@ -50,7 +54,12 @@ void App_Snake_Init(void) {
 	Data->Blank.R = 0;
 	Data->Blank.G = 0;
 	Data->Blank.B = 0;
+	Data->food.R = 0;
+	Data->food.G = 0;
+	Data->food.B = 128;
+
 	Data->snake[0] = DIRECTION_RIGHT | SEGMENT_ACTIVE;
+	App_Snake_Place_Food();
 }
 
 void App_Snake_Remove_Tail() {
@@ -87,6 +96,19 @@ void App_Snake_Remove_Tail() {
 	idx--;
 	Data->snake[offset - idx] = 0;
 	setPixel(x, y, Data->Blank);
+}
+
+void App_Snake_Place_Food() {
+	Pixel tmp;
+	while(1) {
+		Data->foodX = getRandom() % WIDTH;
+		Data->foodY = getRandom() % HEIGHT;
+		tmp = getPixel(Data->foodX, Data->foodY);
+		if (tmp.R == tmp.G == tmp.B == 0) {
+			break;
+		}
+	}
+	setPixel(Data->foodX, Data->foodY, Data->food);
 }
 
 void App_Snake_Tick(void) {
@@ -146,6 +168,10 @@ void App_Snake_Tick(void) {
 		setPixel(Data->headX, Data->headY, Data->p);
 		Data->headIdx = (Data->headIdx + 1) % (WIDTH * HEIGHT);
 		Data->snake[Data->headIdx] = Data->Direction & ~SEGMENT_ACTIVE;
+		if (Data->foodX == Data->headX && Data->foodY == Data->headY) {
+			Data->Direction |= SEGMENT_ACTIVE;
+			App_Snake_Place_Food();
+		}
 	}
 	Data->frame++;
 }
