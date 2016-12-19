@@ -3,11 +3,13 @@
 #include "Input.h"
 #include "Random.h"
 
+#define DIRECTION 0xF
 #define DIRECTION_UP 1
 #define DIRECTION_DOWN 2
 #define DIRECTION_LEFT 4
 #define DIRECTION_RIGHT 8
 #define SEGMENT_ACTIVE 16
+#define GAME_OVER 32
 
 struct appData {	
 	unsigned char headX;
@@ -22,6 +24,7 @@ struct appData {
 	Pixel p;
 	Pixel food;
 	Pixel Blank;
+	Pixel GameOver;
 	unsigned char snake[WIDTH*HEIGHT];
 } typedef appData;
 appData* Data;
@@ -57,6 +60,9 @@ void App_Snake_Init(void) {
 	Data->food.R = 0;
 	Data->food.G = 0;
 	Data->food.B = 128;
+	Data->GameOver.R = 255;
+	Data->GameOver.G = 0;
+	Data->GameOver.B = 0;
 
 	Data->snake[0] = DIRECTION_RIGHT | SEGMENT_ACTIVE;
 	App_Snake_Place_Food();
@@ -111,10 +117,22 @@ void App_Snake_Place_Food() {
 	setPixel(Data->foodX, Data->foodY, Data->food);
 }
 
+void App_Snake_Game_Over_Tick(){
+	if (Data->frame == 3) {
+		Data->frame = 0;
+		setPixel(getRandom() % WIDTH, getRandom() % HEIGHT, Data->GameOver);
+	}
+}
+
 void App_Snake_Tick(void) {
 	unsigned char Input;
-	if (Data->frame == 6) {
+	Pixel tmp;
+	if (Data->Direction & GAME_OVER) {
+		App_Snake_Game_Over_Tick();
+	}
+	else if (Data->frame == 6) {
 		Data->frame = 0;
+		
 		if (Data->Direction & SEGMENT_ACTIVE) {
 			Data->Direction ^= SEGMENT_ACTIVE;
 			Data->length++;
@@ -134,6 +152,10 @@ void App_Snake_Tick(void) {
 			} else if (Input & RIGHT_INPUT && Data->Direction != DIRECTION_LEFT) {
 				Data->Direction = DIRECTION_RIGHT;
 			}
+			if (!Data->Direction) {
+				return;
+			}
+
 			if (Input & A_INPUT) {
 				Data->Direction |= SEGMENT_ACTIVE;
 			}
@@ -165,13 +187,17 @@ void App_Snake_Tick(void) {
 		default:
 			break;
 		}
-		setPixel(Data->headX, Data->headY, Data->p);
-		Data->headIdx = (Data->headIdx + 1) % (WIDTH * HEIGHT);
-		Data->snake[Data->headIdx] = Data->Direction & ~SEGMENT_ACTIVE;
+		tmp = getPixel(Data->headX, Data->headY);
 		if (Data->foodX == Data->headX && Data->foodY == Data->headY) {
 			Data->Direction |= SEGMENT_ACTIVE;
 			App_Snake_Place_Food();
+		} else if (tmp.R || tmp.G || tmp.B || Data->headX < 0 || 
+			Data->headX > WIDTH || Data->headY < 0 || Data->headY > HEIGHT) {
+			Data->Direction = GAME_OVER;
 		}
+		setPixel(Data->headX, Data->headY, Data->p);
+		Data->headIdx = (Data->headIdx + 1) % (WIDTH * HEIGHT);
+		Data->snake[Data->headIdx] = Data->Direction & DIRECTION;		
 	}
 	Data->frame++;
 }
