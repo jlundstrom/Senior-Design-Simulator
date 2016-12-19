@@ -46,6 +46,7 @@ void App_Menu_Tick(void) {
 			if (Input_Status & A_INPUT) {
 				apps[idx].Demo_Deinit();
 				currentApp = &apps[idx];
+				clearDisplay();
 				currentApp->App_Init();
 				idx = -1;
 			}

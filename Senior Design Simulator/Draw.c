@@ -8,19 +8,38 @@ Pixel getPixel(int x, int y) {
 }
 
 void setPixel(int x, int y, Pixel pixel) {
+	if (x > WIDTH) {
+		return;
+	}
+	if (y > HEIGHT) {
+		return;
+	}
+	if (x < 0) {
+		return;
+	}
+	if (y < 0) {
+		return;
+	}
 	Pixels[y * WIDTH + x] = pixel;
 }
 
 void drawRect(int x, int y, int x2, int y2, Pixel pixel) {
+	int y1;
 	if (x2 > WIDTH) {
 		x2 = WIDTH;
 	}
 	if (y2 > HEIGHT) {
 		y2 = HEIGHT;
 	}
-	for (x = 0; x < x2; x++) {
-		for (y = 0; y < y2; y++) {
-			setPixel(x, y, pixel);
+	if (x < 0) {
+		x = 0;
+	}
+	if (y < 0) {
+		y = 0;
+	}
+	for (; x < x2; x++) {
+		for (y1 = y; y1 < y2; y1++) {
+			setPixel(x, y1, pixel);
 		}
 	}
 }
