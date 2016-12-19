@@ -39,8 +39,8 @@ void Demo_Snake_Deinit(void) {
 
 void App_Snake_Init(void) {
 	Data = &AppStorage;
-	Data->headX = 0;
-	Data->headY = 2;
+	Data->headX = getRandom() % WIDTH;
+	Data->headY = getRandom() % HEIGHT;
 	Data->headIdx = 0;
 	Data->length = 1;
 	Data->frame = 0;
