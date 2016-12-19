@@ -11,15 +11,15 @@ void setPixel(int x, int y, Pixel pixel) {
 	Pixels[y * WIDTH + x] = pixel;
 }
 
-void drawRect(int x, int y, int w, int h, Pixel pixel) {
-	if (w > WIDTH) {
-		w = WIDTH;
+void drawRect(int x, int y, int x2, int y2, Pixel pixel) {
+	if (x2 > WIDTH) {
+		x2 = WIDTH;
 	}
-	if (h > HEIGHT) {
-		h = HEIGHT;
+	if (y2 > HEIGHT) {
+		y2 = HEIGHT;
 	}
-	for (x = 0; x < w; x++) {
-		for (y = 0; y < h; y++) {
+	for (x = 0; x < x2; x++) {
+		for (y = 0; y < y2; y++) {
 			setPixel(x, y, pixel);
 		}
 	}

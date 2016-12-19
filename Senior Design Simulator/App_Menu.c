@@ -10,11 +10,7 @@ int x, y;
 unsigned char pastKeys;
 
 void App_Menu_Init(void) {	
-	for (x = 0; x < WIDTH; x++) {
-		for (y = 0; y < HEIGHT; y++) {
-			setPixel(x, y, Blank);
-		}
-	}
+	clearDisplay();
 	idx = 0;
 	frame = 0;
 	apps[idx].Demo_Init();
@@ -43,11 +39,7 @@ void App_Menu_Tick(void) {
 				idx = APP_COUNT-1;
 			}
 			if (Input_Status &(UP_INPUT | DOWN_INPUT)) {
-				for (x = 2; x < WIDTH; x++) {
-					for (y = 0; y < HEIGHT; y++) {
-						setPixel(x, y, Blank);
-					}
-				}
+				drawRect(2, 0, WIDTH, HEIGHT, Blank);
 				apps[idx].Demo_Init();
 				setPixel(0, idx, p);
 			}
