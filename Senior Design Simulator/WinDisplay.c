@@ -8,7 +8,8 @@
 #define	RED 0x40
 #define	LIGHTBLUE 0x90
 #define	LIGHTGREEN 0xA0
-#define	LIGHTRED 0xB0
+#define	LIGHTRED 0xC0
+#define WHITE 0xF0
 HANDLE Handle;
 int i = 0;
 clock_t LastRun;
@@ -28,8 +29,8 @@ void Draw(void) {
 	Pixel pixel;
 
 
-	for (x = 0; x < 32; x++) {
-		for (y = 0; y < 16; y++) {
+	for (x = 0; x < WIDTH; x++) {
+		for (y = 0; y < HEIGHT; y++) {
 			color = 0;
 			t.X = x * 2;
 			t.Y = y;
@@ -58,6 +59,19 @@ void Draw(void) {
 			FillConsoleOutputCharacter(Handle, (TCHAR) '█', size, t, &ret);
 			FillConsoleOutputAttribute(Handle, color, size, t, &ret);
 		}
+	}
+	color = WHITE;
+	t.Y = HEIGHT;
+	for (x = 0; x < WIDTH + 1; x++) {
+		t.X = x * 2;
+		FillConsoleOutputCharacter(Handle, (TCHAR) '█', size, t, &ret);
+		FillConsoleOutputAttribute(Handle, color, size, t, &ret);
+	}
+	t.X = WIDTH * 2;
+	for (y = 0; y < HEIGHT + 1; y++) {
+		t.Y = y;
+		FillConsoleOutputCharacter(Handle, (TCHAR) '█', size, t, &ret);
+		FillConsoleOutputAttribute(Handle, color, size, t, &ret);
 	}
 	t.X = 0;
 	t.Y = y;

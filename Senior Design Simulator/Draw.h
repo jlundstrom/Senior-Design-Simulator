@@ -14,6 +14,13 @@ struct pixel {
 	unsigned char B;
 } typedef Pixel;
 
+static Pixel PIXEL_BLACK = { 0, 0, 0 };
+static Pixel PIXEL_CYAN = { 0, 128, 128 };
+static Pixel PIXEL_RED = { 128, 0, 0 };
+static Pixel PIXEL_GREEN = { 0, 128, 0 };
+static Pixel PIXEL_WHITE = { 255, 255, 255 };
+
+
 Pixel Pixels[WIDTH * HEIGHT];
 Pixel getPixel(int x, int y);
 void setPixel(int x, int y, Pixel pixel);

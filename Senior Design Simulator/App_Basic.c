@@ -6,8 +6,6 @@ struct appData {
 	int x;
 	int y;
 	int frame;
-	Pixel p;
-	Pixel Blank;
 	unsigned char pastKeys;
 } typedef appData;
 appData* Data;
@@ -17,18 +15,12 @@ void Demo_Init(void) {
 	Data->x = 2;
 	Data->y = 0;
 	Data->frame = 0;
-	Data->p.R = 128;
-	Data->p.G = 128;
-	Data->p.B = 0;
-	Data->Blank.R = 0;
-	Data->Blank.G = 0;
-	Data->Blank.B = 0;
 }
 
 void Demo_Tick(void) {
 	if (Data->frame == 4) {
 		Data->frame = 0;
-		setPixel(Data->x, Data->y, Data->Blank);
+		setPixel(Data->x, Data->y, PIXEL_BLACK);
 		Data->x++;
 		if (Data->x == WIDTH) {
 			Data->y++;
@@ -37,7 +29,7 @@ void Demo_Tick(void) {
 		if (Data->y == HEIGHT) {
 			Data->y = 0;
 		}
-		setPixel(Data->x, Data->y, Data->p);
+		setPixel(Data->x, Data->y, PIXEL_CYAN);
 	}
 	Data->frame++;
 }
@@ -46,12 +38,6 @@ void Demo_Deinit(void) {
 	Data->x = 0;
 	Data->y = 0;
 	Data->frame = 0;
-	Data->p.R = 0;
-	Data->p.G = 0;
-	Data->p.B = 0;
-	Data->Blank.R = 0;
-	Data->Blank.G = 0;
-	Data->Blank.B = 0;
 
 	Data = 0;
 }
@@ -61,12 +47,6 @@ void App_Init(void) {
 	Data->x = 2;
 	Data->y = 0;
 	Data->frame = 0;
-	Data->p.R = 128;
-	Data->p.G = 128;
-	Data->p.B = 0;
-	Data->Blank.R = 0;
-	Data->Blank.G = 0;
-	Data->Blank.B = 0;
 }
 
 void App_Tick(void) {
@@ -76,7 +56,7 @@ void App_Tick(void) {
 		Input = Input_Status & ~Data->pastKeys;
 		Data->pastKeys = Input_Status & 0xF0;
 		if (Input) {
-			setPixel(Data->x, Data->y, Data->Blank);
+			setPixel(Data->x, Data->y, PIXEL_BLACK);
 			if (Input & UP_INPUT) {
 				Data->y--;
 			}
@@ -90,24 +70,10 @@ void App_Tick(void) {
 				Data->x++;
 			}
 			if (Input & A_INPUT) {
-				if (Data->p.R == 0) {
-					Data->p.R = 128;
-				}else if (Data->p.R == 128) {
-					Data->p.R = 255;
-				} else {
-					Data->p.R = 0;
-				}
+				
 			}
 			if (Input & B_INPUT) {
-				if (Data->p.G == 0) {
-					Data->p.G = 128;
-				}
-				else if (Data->p.G == 128) {
-					Data->p.G = 255;
-				}
-				else {
-					Data->p.G = 0;
-				}
+				
 			}
 
 			if (Data->x < 0) {
@@ -119,22 +85,17 @@ void App_Tick(void) {
 			}
 			Data->x = Data->x % WIDTH;
 			Data->y = Data->y % HEIGHT;
-			setPixel(Data->x, Data->y, Data->p);
+			setPixel(Data->x, Data->y, PIXEL_CYAN);
 		}		
 	}
 	Data->frame++;
 }
 
 void App_Deinit(void) {
-	Data->x = 0;
-	Data->y = 0;
-	Data->frame = 0;
-	Data->p.R = 0;
-	Data->p.G = 0;
-	Data->p.B = 0;
-	Data->Blank.R = 0;
-	Data->Blank.G = 0;
-	Data->Blank.B = 0;
+	int i;
+	for (i = 0; i < sizeof(appData); i++) {
+		AppStorage[i] = 0;
+	}
 
 	Data = 0;
 }

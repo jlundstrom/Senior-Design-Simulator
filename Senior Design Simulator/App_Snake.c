@@ -21,10 +21,6 @@ struct appData {
 	char frame;
 	unsigned char Direction;
 	unsigned char pastKeys;
-	Pixel p;
-	Pixel food;
-	Pixel Blank;
-	Pixel GameOver;
 	unsigned char snake[WIDTH*HEIGHT];
 } typedef appData;
 appData* Data;
@@ -51,18 +47,6 @@ void App_Snake_Init(void) {
 	Data->headIdx = 0;
 	Data->length = 1;
 	Data->frame = 0;
-	Data->p.R = 128;
-	Data->p.G = 128;
-	Data->p.B = 0;
-	Data->Blank.R = 0;
-	Data->Blank.G = 0;
-	Data->Blank.B = 0;
-	Data->food.R = 0;
-	Data->food.G = 0;
-	Data->food.B = 128;
-	Data->GameOver.R = 255;
-	Data->GameOver.G = 0;
-	Data->GameOver.B = 0;
 
 	Data->snake[0] = DIRECTION_RIGHT | SEGMENT_ACTIVE;
 	App_Snake_Place_Food();
@@ -101,7 +85,7 @@ void App_Snake_Remove_Tail() {
 	}
 	idx--;
 	Data->snake[offset - idx] = 0;
-	setPixel(x, y, Data->Blank);
+	setPixel(x, y, PIXEL_BLACK);
 }
 
 void App_Snake_Place_Food() {
@@ -114,13 +98,18 @@ void App_Snake_Place_Food() {
 			break;
 		}
 	}
-	setPixel(Data->foodX, Data->foodY, Data->food);
+	setPixel(Data->foodX, Data->foodY, PIXEL_GREEN);
 }
 
 void App_Snake_Game_Over_Tick(){
-	if (Data->frame == 3) {
-		Data->frame = 0;
-		setPixel(getRandom() % WIDTH, getRandom() % HEIGHT, Data->GameOver);
+	if (Data->frame % 4 == 3) {
+		setPixel(getRandom() % WIDTH, getRandom() % HEIGHT, PIXEL_RED);
+		if (Input_Status & ~Data->pastKeys) {
+			clearDisplay();
+			App_Snake_Deinit();
+			App_Snake_Init();
+		}
+		Data->pastKeys = Input_Status & 0xFF;
 	}
 }
 
@@ -192,10 +181,10 @@ void App_Snake_Tick(void) {
 			Data->Direction |= SEGMENT_ACTIVE;
 			App_Snake_Place_Food();
 		} else if (tmp.R || tmp.G || tmp.B || Data->headX < 0 || 
-			Data->headX > WIDTH || Data->headY < 0 || Data->headY > HEIGHT) {
+			Data->headX >= WIDTH || Data->headY < 0 || Data->headY >= HEIGHT) {
 			Data->Direction = GAME_OVER;
 		}
-		setPixel(Data->headX, Data->headY, Data->p);
+		setPixel(Data->headX, Data->headY, PIXEL_CYAN);
 		Data->headIdx = (Data->headIdx + 1) % (WIDTH * HEIGHT);
 		Data->snake[Data->headIdx] = Data->Direction & DIRECTION;		
 	}
@@ -203,15 +192,10 @@ void App_Snake_Tick(void) {
 }
 
 void App_Snake_Deinit(void) {
-	Data->headX = 0;
-	Data->headY = 0;
-	Data->frame = 0;
-	Data->p.R = 128;
-	Data->p.G = 128;
-	Data->p.B = 0;
-	Data->Blank.R = 0;
-	Data->Blank.G = 0;
-	Data->Blank.B = 0;
+	int i;
+	for (i = 0; i < sizeof(appData); i++) {
+		AppStorage[i] = 0;
+	}
 
 	Data = 0;
 }

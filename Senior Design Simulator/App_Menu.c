@@ -4,8 +4,6 @@
 
 int idx;
 int frame;
-Pixel p = {0, 128, 128};
-Pixel Blank = { 0, 0, 0 };
 int x, y;
 unsigned char pastKeys;
 
@@ -14,7 +12,7 @@ void App_Menu_Init(void) {
 	idx = 0;
 	frame = 0;
 	apps[idx].Demo_Init();
-	setPixel(0, idx, p);
+	setPixel(0, idx, PIXEL_GREEN);
 }
 
 void App_Menu_Tick(void) {
@@ -25,12 +23,12 @@ void App_Menu_Tick(void) {
 		frame = 0;
 		if (Input) {
 			if (Input_Status & UP_INPUT) {
-				setPixel(0, idx, Blank);
+				setPixel(0, idx, PIXEL_BLACK);
 				apps[idx].Demo_Deinit();
 				idx--;
 			}
 			if (Input_Status & DOWN_INPUT) {
-				setPixel(0, idx, Blank);
+				setPixel(0, idx, PIXEL_BLACK);
 				apps[idx].Demo_Deinit();
 				idx++;
 			}
@@ -41,9 +39,9 @@ void App_Menu_Tick(void) {
 				idx = APP_COUNT-1;
 			}
 			if (Input_Status &(UP_INPUT | DOWN_INPUT)) {
-				drawRect(2, 0, WIDTH, HEIGHT, Blank);
+				drawRect(2, 0, WIDTH, HEIGHT, PIXEL_BLACK);
 				apps[idx].Demo_Init();
-				setPixel(0, idx, p);
+				setPixel(0, idx, PIXEL_GREEN);
 			}
 			if (Input_Status & A_INPUT) {
 				apps[idx].Demo_Deinit();
